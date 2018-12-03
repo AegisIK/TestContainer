@@ -2,16 +2,21 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TestContainer"
-             x:Class="TestContainer.MainPage">
+             x:Class="TestContainer.MainPage"
+             xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions">
 
-    <StackLayout>
+        <controls:CarouselViewControl x:Name="view">
+            <controls:CarouselViewControl.ItemTemplate>
+                <DataTemplate>
+                    <local:PinchAndPanContainer BackgroundColor="Gray" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <local:PinchAndPanContainer.Content>
+                            <Image Source="{Binding .}" Aspect="AspectFit" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                        </local:PinchAndPanContainer.Content>
+                    </local:PinchAndPanContainer>
+                </DataTemplate>
+            </controls:CarouselViewControl.ItemTemplate>
+        </controls:CarouselViewControl>
+            
 
-            <local:PinchAndPanContainer BackgroundColor="Gray" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <local:PinchAndPanContainer.Content>
-                    <Image Source="p1.jpg" Aspect="AspectFit" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-                </local:PinchAndPanContainer.Content>
-            </local:PinchAndPanContainer>
-
-    </StackLayout>
 
 </ContentPage>
