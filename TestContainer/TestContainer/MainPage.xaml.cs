@@ -14,8 +14,8 @@ namespace TestContainer
         public MainPage()
         {
             InitializeComponent();
-
-            List<string> pageList = new List<string>
+        }
+            /*List<string> pageList = new List<string>
             {
                 "p1.jpg",
                 "p2.jpg",
@@ -25,24 +25,41 @@ namespace TestContainer
             view.ItemsSource = pageList;
         }
 
+
+        private double width = 0;
+        private double height = 0;
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
             App.ScreenWidth = width;
             App.ScreenHeight = height;
 
-            double _width;
-            double _height;
 
-
-            if( width > height & t == true)
+            if (!Equals(this.width, width) || !Equals(this.height, height))
             {
-                _width = width;
-                _height = height;
-                t = false;
-                ForceLayout();
+                this.width = width;
+                this.height = height;
+
+                //reconfigure layout if android
+                if (Device.RuntimePlatform == Device.Android)
+                {
+                    view.Orientation = CarouselView.FormsPlugin.Abstractions.CarouselViewOrientation.Vertical;
+                    view.Orientation = CarouselView.FormsPlugin.Abstractions.CarouselViewOrientation.Horizontal;
+                }
             }
-            
+
         }
+
+        public void ImageZoomedIn(bool zoomedIn)
+        {
+            if(zoomedIn == true)
+            {
+                view.IsSwipeEnabled = false;
+            }
+            else if(zoomedIn == false)
+            {
+                view.IsSwipeEnabled = true;
+            }
+        }*/
     }
 }

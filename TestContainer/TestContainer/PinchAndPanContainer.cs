@@ -13,6 +13,8 @@ namespace TestContainer
         double xOffset = 0;
         double yOffset = 0;
 
+        MainPageModel model = new MainPageModel();
+
         // In this class we are Initialization the Gesture Recognizers for the particular property
         public PinchAndPanContainer()
         {
@@ -38,6 +40,8 @@ namespace TestContainer
                 startScale = Content.Scale;
                 Content.AnchorX = 0;
                 Content.AnchorY = 0;
+
+                model.ImageZoomedIn(true);
             }
 
             if (e.Status == GestureStatus.Running)
@@ -78,6 +82,11 @@ namespace TestContainer
                 // Store the translation delta's of the wrapped user interface element.
                 xOffset = Content.TranslationX;
                 yOffset = Content.TranslationY;
+
+                if(Content.Scale == 1)
+                {
+                    model.ImageZoomedIn(false);
+                }
             }
         }
 
