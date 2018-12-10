@@ -14,8 +14,8 @@ namespace TestContainer
         public MainPage()
         {
             InitializeComponent();
-        }
-            /*List<string> pageList = new List<string>
+        }/*
+            List<string> pageList = new List<string>
             {
                 "p1.jpg",
                 "p2.jpg",

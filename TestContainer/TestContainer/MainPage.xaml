@@ -7,25 +7,21 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
 
     <!--<controls:CarouselViewControl x:Name="view">
-            <controls:CarouselViewControl.ItemTemplate>
-                <DataTemplate>
-                <local:PinchAndPanContainer BackgroundColor="Gray" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                        <local:PinchAndPanContainer.Content>
-                            <ffimageloading:CachedImage Source="{Binding .}" Aspect="AspectFit" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-                        </local:PinchAndPanContainer.Content>
-                    </local:PinchAndPanContainer>
-                <StackLayout>
-                    <ScrollView>
+        <controls:CarouselViewControl.ItemTemplate>
+            <DataTemplate>
+                <ScrollView>
+                    <StackLayout>
                         <ffimageloading:CachedImage Source="{Binding .}"/>
-                    </ScrollView>
-                </StackLayout>
-                </DataTemplate>
-            </controls:CarouselViewControl.ItemTemplate>
-        </controls:CarouselViewControl>-->
+                    </StackLayout>
+                    
+                </ScrollView>
+            </DataTemplate>
+        </controls:CarouselViewControl.ItemTemplate>
+    </controls:CarouselViewControl>-->
 
-    <StackLayout>
-        <ScrollView>
+    <ScrollView>
+        <StackLayout>
             <ffimageloading:CachedImage Source="p2.jpg"/>
-        </ScrollView>
-    </StackLayout>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
