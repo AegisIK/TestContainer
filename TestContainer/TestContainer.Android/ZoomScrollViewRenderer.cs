@@ -24,7 +24,13 @@ namespace TestContainer.Droid
         private float mScale = 1f;
         private ScaleGestureDetector mScaleDetector;
 
-        private bool scrollViewActive = false;
+
+        //panning code
+        private float mPositionX;
+        private float mPositionY;
+        private float mLastTouchX;
+        private float mLastTouchY;
+
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
@@ -37,7 +43,7 @@ namespace TestContainer.Droid
 
         public override bool DispatchTouchEvent(MotionEvent e)
         {
-            base.DispatchTouchEvent(e);
+            base.DispatchTouchEvent(e);            
             return mScaleDetector.OnTouchEvent(e);
         }
 
@@ -51,8 +57,8 @@ namespace TestContainer.Droid
             if (mScale < 0.5f) // Minimum scale condition:
                 mScale = 0.5f;
 
-            if (mScale > 1f) // Maximum scale condition:
-                mScale = 1f;
+            if (mScale > 10f) // Maximum scale condition:
+                mScale = 10f;
             ScaleAnimation scaleAnimation = new ScaleAnimation(1f / prevScale, 1f / mScale, 1f / prevScale, 1f / mScale, detector.FocusX, detector.FocusY);
             scaleAnimation.Duration = 0;
             scaleAnimation.FillAfter = true;
@@ -74,15 +80,44 @@ namespace TestContainer.Droid
 
         public override bool OnInterceptTouchEvent(MotionEvent ev)
         {
-            //return base.OnInterceptTouchEvent (ev);
-            if(scrollViewActive)
+            return base.OnInterceptTouchEvent (ev);
+        }
+
+        public override bool OnTouchEvent(MotionEvent ev)
+        {
+
+            MotionEventActions action1 = ev.Action;
+
+            if(action1 == MotionEventActions.Down)
             {
-                return false;
+                float x = ev.XPrecision;
+                float y = ev.YPrecision;
+
+                //remember where touch event started
+                mLastTouchX = x;
+                mLastTouchY = y;
             }
-            else
+            else if(action1 == MotionEventActions.Move)
             {
-                return true;
+                float x = ev.XPrecision;
+                float y = ev.YPrecision;
+
+                //calculate the distances in x and y direction
+                float distanceX = x - mLastTouchX;
+                float distanceY = y - mLastTouchY;
+
+                mPositionX += distanceX;
+                mPositionY += distanceY;
+
+                //remember this touch position for next move event
+                mLastTouchX = x;
+                mLastTouchY = y;
+
+                //redraw canvas call OnDraw method
+
             }
+
+            return true;
         }
     }
 #pragma warning restore CS0618 // Type or member is obsolete
