@@ -14,6 +14,7 @@ using Android.Views.Animations;
 using Xamarin.Forms;
 
 using TestContainer.Droid;
+using Android.Graphics;
 
 [assembly: ExportRenderer(typeof(Xamarin.Forms.ScrollView), typeof(ZoomScrollViewRenderer))]
 namespace TestContainer.Droid
@@ -21,15 +22,9 @@ namespace TestContainer.Droid
 #pragma warning disable CS0618 // Type or member is obsolete
     public class ZoomScrollViewRenderer: ScrollViewRenderer, IOnScaleGestureListener
     {
-        private float mScale = 1f;
         private ScaleGestureDetector mScaleDetector;
+        private float mScaleFactor = 1.0f;
 
-
-        //panning code
-        private float mPositionX;
-        private float mPositionY;
-        private float mLastTouchX;
-        private float mLastTouchY;
 
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
@@ -40,84 +35,43 @@ namespace TestContainer.Droid
 
         }
 
-
-        public override bool DispatchTouchEvent(MotionEvent e)
+        public override bool OnTouchEvent(MotionEvent ev)
         {
-            base.DispatchTouchEvent(e);            
-            return mScaleDetector.OnTouchEvent(e);
+            //Let the ScaleGestureDetector inspect all events.
+            mScaleDetector.OnTouchEvent(ev);
+            return true;
+        }
+
+        public override void OnDrawForeground(Canvas canvas)
+        {
+            base.OnDrawForeground(canvas);
+
+            canvas.Save();
+            canvas.Scale(5, 5);
+
+            canvas.Restore();
         }
 
         public bool OnScale(ScaleGestureDetector detector)
         {
-            float scale = 1 - detector.ScaleFactor;
+            mScaleFactor *= detector.ScaleFactor;
 
-            float prevScale = mScale;
-            mScale += scale;
+            //Don't let the object get too small or too large
+            mScaleFactor = Math.Max(0.1f, Math.Min(mScaleFactor, 5.0f));
 
-            if (mScale < 0.5f) // Minimum scale condition:
-                mScale = 0.5f;
-
-            if (mScale > 10f) // Maximum scale condition:
-                mScale = 10f;
-            ScaleAnimation scaleAnimation = new ScaleAnimation(1f / prevScale, 1f / mScale, 1f / prevScale, 1f / mScale, detector.FocusX, detector.FocusY);
-            scaleAnimation.Duration = 0;
-            scaleAnimation.FillAfter = true;
-            StartAnimation(scaleAnimation);
+            Invalidate();
+            
             return true;
         }
 
         public bool OnScaleBegin(ScaleGestureDetector detector)
         {
-            
-
             return true;
         }
 
         public void OnScaleEnd(ScaleGestureDetector detector)
         {
 
-        }
-
-        public override bool OnInterceptTouchEvent(MotionEvent ev)
-        {
-            return base.OnInterceptTouchEvent (ev);
-        }
-
-        public override bool OnTouchEvent(MotionEvent ev)
-        {
-
-            MotionEventActions action1 = ev.Action;
-
-            if(action1 == MotionEventActions.Down)
-            {
-                float x = ev.XPrecision;
-                float y = ev.YPrecision;
-
-                //remember where touch event started
-                mLastTouchX = x;
-                mLastTouchY = y;
-            }
-            else if(action1 == MotionEventActions.Move)
-            {
-                float x = ev.XPrecision;
-                float y = ev.YPrecision;
-
-                //calculate the distances in x and y direction
-                float distanceX = x - mLastTouchX;
-                float distanceY = y - mLastTouchY;
-
-                mPositionX += distanceX;
-                mPositionY += distanceY;
-
-                //remember this touch position for next move event
-                mLastTouchX = x;
-                mLastTouchY = y;
-
-                //redraw canvas call OnDraw method
-
-            }
-
-            return true;
         }
     }
 #pragma warning restore CS0618 // Type or member is obsolete
