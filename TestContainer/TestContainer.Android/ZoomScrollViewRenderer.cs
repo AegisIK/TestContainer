@@ -12,20 +12,20 @@ using Xamarin.Forms.Platform.Android;
 using static Android.Views.ScaleGestureDetector;
 using Android.Views.Animations;
 using Xamarin.Forms;
+using TestContainer;
 
 using TestContainer.Droid;
 using Android.Graphics;
+using View = Android.Views.View;
 
 [assembly: ExportRenderer(typeof(Xamarin.Forms.ScrollView), typeof(ZoomScrollViewRenderer))]
 namespace TestContainer.Droid
 {
 #pragma warning disable CS0618 // Type or member is obsolete
-    public class ZoomScrollViewRenderer: ScrollViewRenderer, IOnScaleGestureListener
+    public class ZoomScrollViewRenderer : ScrollViewRenderer, IOnScaleGestureListener
     {
+        private float mScale = 1f;
         private ScaleGestureDetector mScaleDetector;
-        private float mScaleFactor = 1.0f;
-
-
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
@@ -35,32 +35,29 @@ namespace TestContainer.Droid
 
         }
 
-        public override bool OnTouchEvent(MotionEvent ev)
+
+        public override bool DispatchTouchEvent(MotionEvent e)
         {
-            //Let the ScaleGestureDetector inspect all events.
-            mScaleDetector.OnTouchEvent(ev);
-            return true;
-        }
-
-        public override void OnDrawForeground(Canvas canvas)
-        {
-            base.OnDrawForeground(canvas);
-
-            canvas.Save();
-            canvas.Scale(5, 5);
-
-            canvas.Restore();
+            base.DispatchTouchEvent(e);
+            return mScaleDetector.OnTouchEvent(e);
         }
 
         public bool OnScale(ScaleGestureDetector detector)
         {
-            mScaleFactor *= detector.ScaleFactor;
+            float scale = 1 - detector.ScaleFactor;
 
-            //Don't let the object get too small or too large
-            mScaleFactor = Math.Max(0.1f, Math.Min(mScaleFactor, 5.0f));
+            float prevScale = mScale;
+            mScale += scale;
 
-            Invalidate();
-            
+            if (mScale < 0.5f) // Minimum scale condition:
+                mScale = 0.5f;
+
+            if (mScale > 1f) // Maximum scale condition:
+                mScale = 1f;
+            ScaleAnimation scaleAnimation = new ScaleAnimation(1f / prevScale, 1f / mScale, 1f / prevScale, 1f / mScale, detector.FocusX, detector.FocusY);
+            scaleAnimation.Duration = 0;
+            scaleAnimation.FillAfter = true;
+            StartAnimation(scaleAnimation);
             return true;
         }
 
@@ -73,6 +70,8 @@ namespace TestContainer.Droid
         {
 
         }
+
+
     }
 #pragma warning restore CS0618 // Type or member is obsolete
 }
