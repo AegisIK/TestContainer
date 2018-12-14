@@ -19,7 +19,7 @@
         </controls:CarouselViewControl.ItemTemplate>
     </controls:CarouselViewControl>-->
     <ScrollView>
-        
+        <ffimageloading:CachedImage Source="p2.jpg"/>
     </ScrollView>
 
 </ContentPage>
