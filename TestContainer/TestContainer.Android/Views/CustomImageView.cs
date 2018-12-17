@@ -14,7 +14,7 @@ using Android.Support.V7.Widget;
 using Android.Graphics;
 using Xamarin.Forms;
 
-[assembly: ExportRenderer(typeof(Xamarin.Forms.ContentView), typeof(TestContainer.Droid.Views.CustomImageView))]
+[assembly: ExportRenderer(typeof(TestContainer.CustomView), typeof(TestContainer.Droid.Views.CustomImageView))]
 namespace TestContainer.Droid.Views
 {
     public class CustomImageView : Android.Views.View
@@ -41,6 +41,7 @@ namespace TestContainer.Droid.Views
                 ImageSource = array.GetString(Resource.Styleable.CustomImageView_Source);
 
                 bitmap = BitmapFactory.DecodeResource(Resources, Resource.Drawable.p1);
+                
             }
         }
 

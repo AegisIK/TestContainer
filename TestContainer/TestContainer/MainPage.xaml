@@ -18,6 +18,6 @@
             </DataTemplate>
         </controls:CarouselViewControl.ItemTemplate>
     </controls:CarouselViewControl>-->
-    <ContentView></ContentView>
+    <local:CustomView Source="p1.jpg"></local:CustomView>
 
 </ContentPage>
