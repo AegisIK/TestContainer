@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace TestContainer
 {
-    public class CustomView : ContentView
+    public class CustomView
     {
     }
 }

@@ -147,11 +147,11 @@ namespace TestContainer.Droid
 
         }
 
-        Bitmap GetBitmap(Xamarin.Forms.Image image)
+       /* Bitmap GetBitmap(Xamarin.Forms.Image image)
         {
             var handler = new ImageLoaderSourceHandler();
-            return handler.LoadImageAsync(image.Source, Context, null);
-        }
+        //    return handler.LoadImageAsync(image.Source, Context, null);
+        }*/
 
 
     }

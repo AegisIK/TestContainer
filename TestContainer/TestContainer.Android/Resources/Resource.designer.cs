@@ -4302,6 +4302,9 @@ namespace TestContainer.Droid
 		public partial class Attribute
 		{
 			
+			// aapt resource value: 0x7f01017c
+			public const int Source = 2130772348;
+			
 			// aapt resource value: 0x7f01006b
 			public const int actionBarDivider = 2130772075;
 			
@@ -10841,6 +10844,12 @@ namespace TestContainer.Droid
 			
 			// aapt resource value: 3
 			public const int CoordinatorLayout_Layout_layout_keyline = 3;
+			
+			public static int[] CustomImageView = new int[] {
+					2130772348};
+			
+			// aapt resource value: 0
+			public const int CustomImageView_Source = 0;
 			
 			public static int[] DesignTheme = new int[] {
 					2130772281,
